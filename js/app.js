@@ -53,11 +53,11 @@ var view = {
                 newCheckBox.type = 'checkbox';
                 td.appendChild(newCheckBox); //add checkbox to cell
                 tr.appendChild(td); // add cell to that row
-                newCheckBox.addEventListener('click', (function(thisStudent) {//add event listener to each checkbox
+                newCheckBox.addEventListener('click', (function(thisStudentCopy) {//add event listener to each checkbox
                     return function() {
-                        octo.incrementDaysMissed(thisStudent);
+                        octo.incrementDaysMissed(thisStudentCopy);
                     };
-                })());
+                })(thisStudent));
             }
             var daysMissed = document.createElement('td') //creates text for days missed
             daysMissed.appendChild(document.createTextNode(students[i].daysMissed));
