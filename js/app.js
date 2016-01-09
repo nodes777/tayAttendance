@@ -23,8 +23,10 @@ var octo = {
     },
     incrementDaysMissed: function(thisStudentCopy) {
         model.thisStudent = thisStudentCopy;
-        model.thisStudent.daysMissed++;
-        view.dayUpdate();
+
+        var n = $("input:checkbox:checked").length;//gets all checked boxes. Need just that row's
+        model.thisStudent.daysMissed = n;
+        view.dayUpdate(n);
     }
 };
 
@@ -32,7 +34,7 @@ var view = {
     init: function() {
         this.render();
     },
-    dayUpdate: function(thisStudentCopy){
+    dayUpdate: function(){
          var students = octo.getStudents();
          for (var i = 0; i< students.length; i++){
             var daysMissedId = document.getElementById(i);
@@ -53,21 +55,25 @@ var view = {
         for (var i = 0; i < students.length; i++) { //for each student
             var thisStudent = students[i];
             var tr = document.createElement('tr');
-            var studentName = document.createElement('td')
+            var rowId = "row"+i;
+            tr.setAttribute('id', rowId);// gives each row an id with row[i]
+            var studentName = document.createElement('td');
             studentName.appendChild(document.createTextNode(students[i].name));
             tr.appendChild(studentName); //creates a new row for each student
-            for (var j = 0; j < 12; j++) { //create the check boxes
-                var td = document.createElement('td'); //creates a cell
-                var newCheckBox = document.createElement('input');
-                newCheckBox.type = 'checkbox';
-                td.appendChild(newCheckBox); //add checkbox to cell
-                tr.appendChild(td); // add cell to that row
-                newCheckBox.addEventListener('click', (function(thisStudentCopy) {//add event listener to each checkbox
-                    return function() {
-                        octo.incrementDaysMissed(thisStudentCopy);
-                    };
-                })(thisStudent));//step 1 pass in thisStudent
-            }
+
+                for (var j = 0; j < 12; j++) { //create the check boxes
+                    var td = document.createElement('td'); //creates a cell
+                    var newCheckBox = document.createElement('input');
+                    newCheckBox.type = 'checkbox';
+                    td.appendChild(newCheckBox); //add checkbox to cell
+                    tr.appendChild(td); // add cell to that row
+
+                    newCheckBox.addEventListener('click', (function(thisStudentCopy) {//add event listener to each checkbox
+                        return function() {
+                            octo.incrementDaysMissed(thisStudentCopy);
+                        };
+                    })(thisStudent));//step 1 pass in thisStudent
+                }
             var daysMissed = document.createElement('td') //creates text for days missed
             daysMissed.appendChild(document.createTextNode(students[i].daysMissed));
             daysMissed.setAttribute('id', i)
