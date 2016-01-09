@@ -1,6 +1,5 @@
 //model
 var model = {
-    thisStudent: null,
     students: [
         {
             name: "Slappy",
@@ -22,8 +21,8 @@ var octo = {
     getStudents: function() {
         return model.students;
     },
-    incrementDaysMissed: function(thisStudent) {
-        model.thisStudent.daysMissed++;
+    incrementDaysMissed: function(thisStudentCopy) {
+        thisStudentCopy.daysMissed++;
         view.render();
     }
 };
@@ -57,7 +56,7 @@ var view = {
                     return function() {
                         octo.incrementDaysMissed(thisStudentCopy);
                     };
-                })(thisStudent));
+                })(thisStudent));//step 1 pass in thisStudent
             }
             var daysMissed = document.createElement('td') //creates text for days missed
             daysMissed.appendChild(document.createTextNode(students[i].daysMissed));
