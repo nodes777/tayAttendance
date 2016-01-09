@@ -1,5 +1,6 @@
 //model
 var model = {
+    thisStudent: null,
     students: [
         {
             name: "Slappy",
@@ -15,21 +16,30 @@ console.log(model.students[0]);
 
 var octo = {
     init: function() {
-        //model.thisStudent = model.students[0];
         view.init();
     },
     getStudents: function() {
         return model.students;
     },
     incrementDaysMissed: function(thisStudentCopy) {
-        thisStudentCopy.daysMissed++;
-        view.render();
+        model.thisStudent = thisStudentCopy;
+        model.thisStudent.daysMissed++;
+        view.dayUpdate();
     }
 };
 
 var view = {
     init: function() {
         this.render();
+    },
+    dayUpdate: function(thisStudentCopy){
+         var students = octo.getStudents();
+         for (var i = 0; i< students.length; i++){
+            var daysMissedId = document.getElementById(i);
+            daysMissedId.textContent = students[i].daysMissed;
+         }
+
+
     },
     render: function() {
         var tbl = document.createElement('table'); // creates table and styles
@@ -60,6 +70,7 @@ var view = {
             }
             var daysMissed = document.createElement('td') //creates text for days missed
             daysMissed.appendChild(document.createTextNode(students[i].daysMissed));
+            daysMissed.setAttribute('id', i)
             tr.appendChild(daysMissed);
             tbdy.appendChild(tr); // add each student row to the table body
         }
