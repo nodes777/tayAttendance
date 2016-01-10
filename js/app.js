@@ -23,8 +23,8 @@ var octo = {
     },
     incrementDaysMissed: function(thisStudentCopy) {
         model.thisStudent = thisStudentCopy;
-
-        var n = $("input:checkbox:checked").length;//gets all checked boxes. Need just that row's
+        model.thisStudent.daysMissed++;
+        var n = model.thisStudent.daysMissed++;//gets all checked boxes. Need just that row's
         model.thisStudent.daysMissed = n;
         view.dayUpdate(n);
     }
